@@ -32,7 +32,7 @@
 #' to accomodate long text labels.
 #' @param height numeric height for the network graph's frame area in pixels.
 #' @param width numeric width for the network graph's frame area in pixels.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Recreate Bostock Sankey diagram: http://bost.ocks.org/mike/sankey/
@@ -67,7 +67,8 @@ sankeyNetwork <- function(Links,
                           nodePadding = 10,
                           margin = NULL,
                           height = NULL,
-                          width = NULL
+                          width = NULL,
+                          iterations = 32
                          )
 {
     # Hack for UI consistency. Think of improving.
@@ -85,7 +86,7 @@ sankeyNetwork <- function(Links,
     #  Target is the second column
     if(missing(Source)) Source = 1
     if(missing(Target)) Target = 2
-    
+
     if (missing(Value)) {
         LinksDF <- data.frame(Links[, Source], Links[, Target])
         names(LinksDF) <- c("source", "target")
@@ -94,14 +95,14 @@ sankeyNetwork <- function(Links,
         LinksDF <- data.frame(Links[, Source], Links[, Target], Links[, Value])
         names(LinksDF) <- c("source", "target", "value")
     }
-    
+
     # if NodeID is missing assume
     #  NodeID is the first column
     if(missing(NodeID)) NodeID = 1
     NodesDF <- data.frame(Nodes[, NodeID])
     names(NodesDF) <- c("name")
-    
-    margin <- margin_handler(margin)    
+
+    margin <- margin_handler(margin)
 
     # create options
     options = list(
@@ -112,7 +113,8 @@ sankeyNetwork <- function(Links,
         nodeWidth = nodeWidth,
         nodePadding = nodePadding,
         units = units,
-        margin = margin
+        margin = margin,
+        iterations = iterations
     )
 
     # create widget
